@@ -60,8 +60,8 @@ class Clan(models.Model):
 
 
 class UserData(models.Model):
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE, unique=True)
-    clan = models.ForeignKey('Clan', on_delete=models.CASCADE)
+    user_id = models.OneToOneField('User', on_delete=models.CASCADE, related_name='user_data')
+    clan_id = models.ForeignKey('Clan', on_delete=models.CASCADE)
     food = models.IntegerField(validators=[MinValueValidator(0)], default=0)
 
     def __str__(self):
@@ -69,7 +69,7 @@ class UserData(models.Model):
 
 
 class UserPosition(models.Model):
-    user_id = models.ForeignKey('User', on_delete=models.CASCADE, unique=True)
+    user_id = models.OneToOneField('User', on_delete=models.CASCADE, related_name='position')
     longitude = models.FloatField()
     latitude = models.FloatField()
 
@@ -90,14 +90,14 @@ class Cat(models.Model):
 
 
 class CatImage(models.Model):
-    cat_id = models.ForeignKey('Cat', on_delete=models.CASCADE, unique=True)
-    image = models.UUIDField()
+    cat_id = models.OneToOneField('Cat', on_delete=models.CASCADE, related_name='image')
+    image_uuid = models.UUIDField()
     seed = models.IntegerField()
 
     @property
     def image_url(self):
         return (
-            f"https://res.cloudinary.com/{os.getenv('CLOUDINARY_CLOUD_NAME')}/{self.image}"
+            f"https://res.cloudinary.com/{os.getenv('CLOUDINARY_CLOUD_NAME')}/{self.image_uuid}"
         )
 
     def __str__(self):
@@ -105,7 +105,7 @@ class CatImage(models.Model):
 
 
 class CatPosition(models.Model):
-    cat_id = models.ForeignKey('Cat', on_delete=models.CASCADE, unique=True)
+    cat_id = models.OneToOneField('Cat', on_delete=models.CASCADE, related_name='position')
     longitude = models.FloatField()
     latitude = models.FloatField()
 

@@ -1,5 +1,5 @@
-from core.user.serializers import UserSerializer
-from core.models import User
+from core.user.serializers import UserDataCreateSerializer, UserDataSerializer, UserSerializer
+from core.models import User, UserData
 from rest_framework import viewsets
 from rest_framework import filters
 
@@ -22,3 +22,10 @@ class UserViewSet(viewsets.ModelViewSet):
         self.check_object_permissions(self.request, obj)
 
         return obj
+    
+
+class UserDataCreateViewSet(viewsets.ModelViewSet):
+    http_method_names = ['post']
+    serializer_class = UserDataCreateSerializer
+    filter_backends = [filters.OrderingFilter]
+
