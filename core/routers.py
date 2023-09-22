@@ -1,6 +1,6 @@
 from rest_framework.routers import SimpleRouter
 from core.surroundings.viewsets import SurroundingsAPIView
-from core.user.viewsets import UserDataCreateViewSet, UserDataViewSet, UserViewSet
+from core.user.viewsets import UserDataCreateViewSet, UserDataViewSet, UserDetailsViewSet, UserInfoViewSet, UserViewSet
 from core.auth.viewsets import LoginViewSet, RegistrationViewSet, RefreshViewSet
 from django.urls import path, re_path
 
@@ -13,8 +13,11 @@ routes.register(r'auth/register', RegistrationViewSet, basename='register')
 routes.register(r'auth/refresh', RefreshViewSet, basename='refresh')
 
 # USER
-routes.register(r'user/info', UserViewSet, basename='user')
-routes.register(r'user/data/create', UserDataCreateViewSet, basename='user-data-create')
+routes.register(r'user/create/data', UserDataCreateViewSet, basename='user-create-data')
+routes.register(r'user/data', UserDataViewSet, basename='user-data')
+routes.register(r'user/details', UserDetailsViewSet, basename='user-details')
+routes.register(r'user/info', UserInfoViewSet, basename='user-info')
+routes.register(r'user', UserViewSet, basename='user')
 
 
 urlpatterns = [
