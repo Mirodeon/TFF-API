@@ -61,7 +61,7 @@ class Clan(models.Model):
 
 class UserData(models.Model):
     user_id = models.OneToOneField('User', on_delete=models.CASCADE, related_name='data')
-    clan_id = models.ForeignKey('Clan', on_delete=models.CASCADE)
+    clan_id = models.ForeignKey('Clan', on_delete=models.CASCADE, related_name='users_data')
     food = models.IntegerField(validators=[MinValueValidator(0)], default=0)
 
     def __str__(self):
