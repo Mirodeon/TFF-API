@@ -16,20 +16,20 @@
 * Access API at http://127.0.0.1:8000/api.
 ### API Endpoints
 + Auth   
-   * [/auth/register]()   
-   * [/auth/login]()   
-   * [/auth/refresh]() 
+   * [/auth/register](https://github.com/Mirodeon/TFF-API/blob/main/auth_register.md)   
+   * [/auth/login](https://github.com/Mirodeon/TFF-API/blob/main/auth_login.md)   
+   * [/auth/refresh](https://github.com/Mirodeon/TFF-API/blob/main/auth_refresh.md) 
 + User   
-   * [/user]() 
-   * [/user/info]()
-   * [/user/details]()
-   * [/user/data]()
+   * [/user](https://github.com/Mirodeon/TFF-API/blob/main/user.md) 
+   * [/user/info](https://github.com/Mirodeon/TFF-API/blob/main/user_info.md)
+   * [/user/details](https://github.com/Mirodeon/TFF-API/blob/main/user_details.md)
+   * [/user/data](https://github.com/Mirodeon/TFF-API/blob/main/user_data.md)
 + Clan 
-   * [/clan]() 
-   * [/clan/user]()
-   * [/clan/cat]()
+   * [/clan](https://github.com/Mirodeon/TFF-API/blob/main/clan.md) 
+   * [/clan/user](https://github.com/Mirodeon/TFF-API/blob/main/clan_user.md)
+   * [/clan/cat](https://github.com/Mirodeon/TFF-API/blob/main/clan_cat.md)
 + Surroundings 
-   * [/surroundings]()
+   * [/surroundings](https://github.com/Mirodeon/TFF-API/blob/main/surroundings.md)
 ### Author
 * [Mirodeon](https://https://github.com/Mirodeon)
 
