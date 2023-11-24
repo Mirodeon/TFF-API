@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import User, Clan, UserData, UserPosition, Cat, CatImage, CatPosition, InterestPoint, InteractCat, InteractInterestPoint
+from .models import CatOrigin, User, Clan, UserData, UserImage, UserPosition, Cat, CatImage, CatPosition, InterestPoint, InteractCat, InteractInterestPoint
 
 
 @admin.register(User)
@@ -36,6 +36,17 @@ class UserPositionAdmin(admin.ModelAdmin):
     ]
 
 
+@admin.register(UserImage)
+class UserImageAdmin(admin.ModelAdmin):
+    search_fields = [
+        'user_data_id__user_id__email',
+        'user_data_id__user_id__username',
+        'user_data_id__clan_id__name',
+        'cat_id__job',
+        'image_uuid'
+    ]
+
+
 @admin.register(Cat)
 class CatAdmin(admin.ModelAdmin):
     search_fields = [
@@ -53,12 +64,24 @@ class CatImageAdmin(admin.ModelAdmin):
         'cat_id__user_id__username',
         'cat_id__name',
         'cat_id__job',
-        'image'
+        'image_uuid'
     ]
 
 
 @admin.register(CatPosition)
 class CatPositionAdmin(admin.ModelAdmin):
+    search_fields = [
+        'cat_id__user_id__email',
+        'cat_id__user_id__username',
+        'cat_id__name',
+        'cat_id__job',
+        'latitude',
+        'longitude'
+    ]
+
+
+@admin.register(CatOrigin)
+class CatOriginAdmin(admin.ModelAdmin):
     search_fields = [
         'cat_id__user_id__email',
         'cat_id__user_id__username',

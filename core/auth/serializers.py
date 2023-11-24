@@ -27,13 +27,13 @@ class LoginSerializer(TokenObtainPairSerializer):
 
 class RegisterSerializer(UserSerializer):
     password = serializers.CharField(
-        max_length=128, min_length=8, write_only=True, required=True
+        write_only=True, max_length=128, min_length=8, required=True
     )
     email = serializers.EmailField(
-        required=True, write_only=True, max_length=128, validators=[UniqueValidator(queryset=User.objects.all())]
+        required=True, max_length=128, validators=[UniqueValidator(queryset=User.objects.all())]
     )
     username = serializers.CharField(
-        required=True, write_only=True, max_length=24, min_length=4, validators=[UniqueValidator(queryset=User.objects.all())]
+        required=True, max_length=24, min_length=4, validators=[UniqueValidator(queryset=User.objects.all())]
     )
 
     class Meta:

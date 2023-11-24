@@ -1,5 +1,5 @@
 from core.clan.serializers import ClanSerializer
-from core.models import Clan, User, UserData
+from core.models import Clan, User, UserData, UserImage
 from rest_framework import serializers
 
 
@@ -38,10 +38,26 @@ class UserDataCreateSerializer(serializers.ModelSerializer):
 
 class UserDataSerializer(serializers.ModelSerializer):
     clan = ClanSerializer(source='clan_id', read_only=True)
+    image = serializers.CharField(source='image.image_url', read_only=True)
 
     class Meta:
         model = UserData
-        fields = ['clan', 'food']
+        fields = ['clan', 'food', 'lvl', 'exp', 'limite_exp', 'image']
+
+    def create(self):
+        request = self.context.get("request")
+
+        user_data_instance = UserData.objects.create(
+            user_id=request.user,
+            clan_id=Clan.objects.get(id=request.data['clan_id'])
+        )
+
+        UserImage.objects.create(
+            user_data_id=user_data_instance,
+            seed=101
+        )
+
+        return user_data_instance
 
 
 class UserDetailsSerializer(serializers.ModelSerializer):
@@ -57,7 +73,7 @@ class UserFromClanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Clan
-        fields = ['id', 'name', 'users']
+        fields = ['id', 'name', 'effect_id', 'users']
 
     def get_users(self, obj):
         users = User.objects.filter(data__clan_id=obj.id)

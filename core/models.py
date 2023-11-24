@@ -1,3 +1,4 @@
+import uuid
 from django.db import models
 from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, PermissionsMixin
 from django.core.validators import MinValueValidator
@@ -54,6 +55,7 @@ class User(AbstractBaseUser, PermissionsMixin):
 
 class Clan(models.Model):
     name = models.CharField(db_index=True, unique=True, max_length=24)
+    effect_id = models.IntegerField(validators=[MinValueValidator(0)], default=0)
 
     def __str__(self):
         return f"{self.name}"
@@ -63,9 +65,27 @@ class UserData(models.Model):
     user_id = models.OneToOneField('User', on_delete=models.CASCADE, related_name='data')
     clan_id = models.ForeignKey('Clan', on_delete=models.CASCADE, related_name='users_data')
     food = models.IntegerField(validators=[MinValueValidator(0)], default=0)
+    lvl = models.IntegerField(validators=[MinValueValidator(1)], default=1)
+    exp = models.IntegerField(validators=[MinValueValidator(0)], default=0)
+    limite_exp = models.IntegerField(validators=[MinValueValidator(5)], default=5)
 
     def __str__(self):
         return f"{self.user_id}"
+    
+
+class UserImage(models.Model):
+    user_data_id = models.OneToOneField('UserData', on_delete=models.CASCADE, related_name='image')
+    image_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
+    seed = models.IntegerField()
+
+    @property
+    def image_url(self):
+        return (
+            f"https://res.cloudinary.com/{os.getenv('CLOUDINARY_CLOUD_NAME')}/{self.image_uuid}"
+        )
+
+    def __str__(self):
+        return f"{self.user_data_id}"
 
 
 class UserPosition(models.Model):
@@ -81,7 +101,7 @@ class Cat(models.Model):
     user_id = models.ForeignKey('User', on_delete=models.CASCADE)
     name = models.CharField(db_index=True, max_length=24)
     job = models.CharField(db_index=True, max_length=24)
-    lvl = models.IntegerField(validators=[MinValueValidator(0)], default=0)
+    lvl = models.IntegerField(validators=[MinValueValidator(1)], default=1)
     exp = models.IntegerField(validators=[MinValueValidator(0)], default=0)
     timestamp = models.DateTimeField(default=timezone.now)
 
@@ -91,7 +111,7 @@ class Cat(models.Model):
 
 class CatImage(models.Model):
     cat_id = models.OneToOneField('Cat', on_delete=models.CASCADE, related_name='image')
-    image_uuid = models.UUIDField()
+    image_uuid = models.UUIDField(default=uuid.uuid4, editable=False)
     seed = models.IntegerField()
 
     @property
@@ -103,6 +123,15 @@ class CatImage(models.Model):
     def __str__(self):
         return f"{self.cat_id}"
 
+
+class CatOrigin(models.Model):
+    cat_id = models.OneToOneField('Cat', on_delete=models.CASCADE, related_name='origin')
+    longitude = models.FloatField()
+    latitude = models.FloatField()
+
+    def __str__(self):
+        return f"{self.cat_id}"
+    
 
 class CatPosition(models.Model):
     cat_id = models.OneToOneField('Cat', on_delete=models.CASCADE, related_name='position')

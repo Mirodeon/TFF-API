@@ -6,5 +6,5 @@ class ClanSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Clan
-        fields = ['id', 'name']
+        fields = ['id', 'name', 'effect_id']
 

@@ -42,14 +42,8 @@ class UserInfoViewSet(viewsets.ModelViewSet):
         return obj
 
 
-class UserDataCreateViewSet(viewsets.ModelViewSet):
-    http_method_names = ['post']
-    serializer_class = UserDataCreateSerializer
-    filter_backends = [filters.OrderingFilter]
-
-
 class UserDataViewSet(viewsets.ModelViewSet):
-    http_method_names = ['get']
+    http_method_names = ['get', 'post']
     serializer_class = UserDataSerializer
     filter_backends = [filters.OrderingFilter]
 
