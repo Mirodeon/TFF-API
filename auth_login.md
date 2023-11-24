@@ -1,4 +1,4 @@
-# auth/login
+# /auth/login
 ### POST
 + Request
 ```json

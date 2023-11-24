@@ -1,4 +1,4 @@
-# auth/refresh
+# /auth/refresh
 ### POST
 + Request
 ```json
