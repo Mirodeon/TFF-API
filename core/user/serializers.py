@@ -44,7 +44,7 @@ class UserDataSerializer(serializers.ModelSerializer):
         model = UserData
         fields = ['clan', 'food', 'lvl', 'exp', 'limite_exp', 'image']
 
-    def create(self):
+    def create(self, validated_data):
         request = self.context.get("request")
 
         user_data_instance = UserData.objects.create(
