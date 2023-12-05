@@ -1,5 +1,6 @@
 from rest_framework.routers import SimpleRouter
 from core.clan.viewsets import CatFromClanViewSet, ClanViewSet, UserFromClanViewSet
+from core.interact.viewsets import InteractWithCat, InteractWithInterestPoint
 from core.surroundings.viewsets import SurroundingsAPIView
 from core.user.viewsets import UserDataViewSet, UserDetailsViewSet, UserInfoViewSet, UserViewSet
 from core.auth.viewsets import LoginViewSet, RegistrationViewSet, RefreshViewSet
@@ -29,12 +30,10 @@ urlpatterns = [
     *routes.urls,
 
     # SURROUNDINGS
-    path(r'surroundings', SurroundingsAPIView.as_view(), name='surroundings')
+    path(r'surroundings', SurroundingsAPIView.as_view(), name='surroundings'),
+
+    # INTERACT
+    path(r'interact/interest', InteractWithInterestPoint.as_view(), name='interact-interest'),
+    path(r'interact/cat', InteractWithCat.as_view(), name='interact-cat')
 
 ]
-
-"""     re_path(
-        r'^surroundings/lat/(?P<lat>\d+\.\d+)/lon/(?P<lon>\d+\.\d+)/$',
-        SurroundingsAPIView.as_view(),
-        name='surroundings'
-    ) """

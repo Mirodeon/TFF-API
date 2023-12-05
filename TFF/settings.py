@@ -26,6 +26,8 @@ load_dotenv(BASE_DIR / '.env')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 API_KEY_CUSTOM_HEADER = os.getenv('API_KEY_CUSTOM_HEADER')
+LVL_MAX_USER = int(os.getenv('LVL_MAX_USER'))
+RADIUS_VIEW = int(os.getenv('RADIUS_VIEW'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG', '0')))

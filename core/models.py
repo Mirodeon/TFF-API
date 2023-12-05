@@ -4,6 +4,8 @@ from django.contrib.auth.models import AbstractBaseUser, BaseUserManager, Permis
 from django.core.validators import MinValueValidator
 from django.utils import timezone
 import os
+from TFF.settings import RADIUS_VIEW
+from core.utils import distanceBetweenGPSPoint
 
 
 class UserManager(BaseUserManager):
@@ -34,6 +36,31 @@ class UserManager(BaseUserManager):
         user.save(using=self._db)
 
         return user
+    
+    def gain_exp(self, exp):     
+        try:
+            user_data = self.data
+        except UserData.DoesNotExist:
+            return 
+        if user_data.limite_exp <= (user_data.exp+exp):
+            user_data.exp = user_data.exp+exp-user_data.limite_exp
+            user_data.limite_exp = ((user_data.lvl*(user_data.lvl+1))/2)+5
+            user_data.lvl = user_data.lvl+1
+        else:
+            user_data.exp = user_data.exp+exp
+        user_data.save()
+
+    def gain_food(self, food):     
+        try:
+            user_data = self.data
+        except UserData.DoesNotExist:
+            return 
+        user_data.food = user_data.food+food
+        user_data.save()
+
+
+
+
 
 
 class User(AbstractBaseUser, PermissionsMixin):
@@ -105,6 +132,13 @@ class Cat(models.Model):
     exp = models.IntegerField(validators=[MinValueValidator(0)], default=0)
     timestamp = models.DateTimeField(default=timezone.now)
 
+    def is_in_radius(self, lat, lon):
+        try:
+            origin = self.origin
+        except CatOrigin.DoesNotExist:
+            return False
+        return origin.is_in_radius(lat, lon)
+
     def __str__(self):
         return f"{self.name} from {self.user_id}"
 
@@ -128,6 +162,9 @@ class CatOrigin(models.Model):
     cat_id = models.OneToOneField('Cat', on_delete=models.CASCADE, related_name='origin')
     longitude = models.FloatField()
     latitude = models.FloatField()
+    
+    def is_in_radius(self, lat, lon):
+        return RADIUS_VIEW >= distanceBetweenGPSPoint(self.latitude, lat, self.longitude, lon)
 
     def __str__(self):
         return f"{self.cat_id}"
@@ -138,6 +175,9 @@ class CatPosition(models.Model):
     longitude = models.FloatField()
     latitude = models.FloatField()
 
+    def is_in_radius(self, lat, lon):
+        return RADIUS_VIEW >= distanceBetweenGPSPoint(self.latitude, lat, self.longitude, lon)
+
     def __str__(self):
         return f"{self.cat_id}"
 
@@ -146,6 +186,9 @@ class InterestPoint(models.Model):
     longitude = models.FloatField()
     latitude = models.FloatField()
     # 0.02 range random
+
+    def is_in_radius(self, lat, lon):
+        return RADIUS_VIEW >= distanceBetweenGPSPoint(self.latitude, lat, self.longitude, lon)
 
     def __str__(self):
         return f"[{self.latitude}, {self.longitude}]"
@@ -156,6 +199,7 @@ class InteractCat(models.Model):
     user_id = models.ForeignKey('User', on_delete=models.CASCADE)
     timestamp = models.DateTimeField(default=timezone.now)
     is_enabled = models.BooleanField(default=True)
+    given_food = models.IntegerField(validators=[MinValueValidator(0)], default=0)
 
     def __str__(self):
         return f"{self.user_id} interact with {self.cat_id}"
