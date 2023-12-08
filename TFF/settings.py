@@ -26,8 +26,23 @@ load_dotenv(BASE_DIR / '.env')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 API_KEY_CUSTOM_HEADER = os.getenv('API_KEY_CUSTOM_HEADER')
+
 LVL_MAX_USER = int(os.getenv('LVL_MAX_USER'))
+LVL_MAX_CAT = int(os.getenv('LVL_MAX_CAT'))
+
 RADIUS_VIEW = int(os.getenv('RADIUS_VIEW'))
+MIN_RADIUS_CAT = int(os.getenv('MIN_RADIUS_CAT'))
+
+JOB_CHOICES = os.getenv('JOB_CHOICES')
+CLAN_CHOICES = os.getenv('CLAN_CHOICES')
+
+GET_IMG_AI_URL = os.getenv('GET_IMG_AI_URL')
+GET_IMG_AI_KEY = os.getenv('GET_IMG_AI_KEY')
+GET_IMG_AI_MODEL = os.getenv('GET_IMG_AI_MODEL')
+GET_IMG_AI_NEGATIVE_PROMPT = os.getenv('GET_IMG_AI_NEGATIVE_PROMPT')
+GET_IMG_AI_SIZE = int(os.getenv('GET_IMG_AI_SIZE'))
+GET_IMG_AI_STEP = int(os.getenv('GET_IMG_AI_STEP'))
+GET_IMG_AI_GUIDANCE = int(os.getenv('GET_IMG_AI_GUIDANCE'))
 
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = bool(int(os.getenv('DEBUG', '0')))

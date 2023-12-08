@@ -27,7 +27,7 @@ class CatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cat
-        fields = ['id', 'owner', 'clan', 'name', 'job', 'lvl', 'exp', 'timestamp', 'image', 'origin', 'position']
+        fields = ['id', 'owner', 'clan', 'name', 'job', 'lvl', 'exp', 'timestamp', 'image', 'origin', 'position', 'alive']
 
 
 class CatFromClanSerializer(serializers.ModelSerializer):

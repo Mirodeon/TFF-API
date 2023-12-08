@@ -1,4 +1,4 @@
-from core.user.serializers import UserDataCreateSerializer, UserDataSerializer, UserDetailsSerializer, UserInfoSerializer, UserSerializer
+from core.user.serializers import UserDataSerializer, UserDetailsSerializer, UserInfoSerializer, UserSerializer
 from core.models import User, UserData
 from rest_framework import viewsets
 from rest_framework import filters

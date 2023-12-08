@@ -1,5 +1,5 @@
 from django.contrib import admin
-from .models import CatOrigin, User, Clan, UserData, UserImage, UserPosition, Cat, CatImage, CatPosition, InterestPoint, InteractCat, InteractInterestPoint
+from .models import CatOrigin, User, Clan, UserData, UserImage, Cat, CatImage, CatPosition, InterestPoint, InteractCat, InteractInterestPoint
 
 
 @admin.register(User)
@@ -23,16 +23,6 @@ class UserDataAdmin(admin.ModelAdmin):
         'user_id__email',
         'user_id__username',
         'clan_id__name'
-    ]
-
-
-@admin.register(UserPosition)
-class UserPositionAdmin(admin.ModelAdmin):
-    search_fields = [
-        'user_id__email',
-        'user_id__username',
-        'longitude',
-        'latitude'
     ]
 
 

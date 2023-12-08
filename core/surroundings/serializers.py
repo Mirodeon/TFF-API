@@ -37,7 +37,7 @@ class CatWithInteractSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cat
-        fields = ['id', 'owner', 'clan', 'name', 'job', 'lvl', 'exp', 'timestamp', 'url', 'origin', 'position', 'interact']
+        fields = ['id', 'owner', 'clan', 'name', 'job', 'lvl', 'exp', 'timestamp', 'url', 'origin', 'position', 'interact', 'alive']
 
     def get_interact(self, obj):
         interact = InteractCat.objects.filter(user_id=self.context.get("request").user, cat_id=obj)

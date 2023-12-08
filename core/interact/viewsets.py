@@ -1,10 +1,16 @@
+import math
 import random
 from rest_framework.views import APIView
-from core.models import Cat, CatImage, InteractInterestPoint, InterestPoint
+from TFF.settings import JOB_CHOICES
+from core.cat.serializers import CatSerializer
+from core.models import Cat, CatImage, InteractCat, InteractInterestPoint, InterestPoint
 from rest_framework.response import Response
 from rest_framework import status
+from core.user.serializers import UserDataSerializer
+from core.utils import getCatImgAI, getColorClan, uploadImgToCloud
 
-class InteractWithInterestPoint(APIView):
+
+class InteractWithInterestPointAPIView(APIView):
 
     def get(self, request):
 
@@ -12,41 +18,94 @@ class InteractWithInterestPoint(APIView):
         interest = InterestPoint.objects.get(id=interest_id)
 
         if InteractInterestPoint.objects.filter(user_id=request.user, interest_point_id=interest).exists():
-
             return Response({
                 "message": "You have already interacted with this point."
-            }, status=status.HTTP_400_BAD_REQUEST)
-        
+            }, status=status.HTTP_400_BAD_REQUEST)       
         else:
+            InteractInterestPoint.objects.create(
+                interest_point_id=interest,
+                user_id=request.user
+            )
 
-            if random.randrange(1, 100) > 5:
-                gained_food = random.randrange(4, 9)
+            gained_food = 0
+            cat_instance = None
+            if random.randrange(1, 101) > 5:
+                gained_food = random.randrange(4, 10)
                 request.user.gain_food(gained_food)
             else:
+                jobs = JOB_CHOICES.split(" ")
+                job_random = jobs[random.randrange(0, len(jobs))]
                 cat_instance = Cat.objects.create(
                     user_id=request.user,
                     clan_id=request.user.data.clan_id,
-                    name="Test",
-                    job="Knight"          
+                    job=job_random          
                 )
-
-                CatImage.objects.create(
+                color = getColorClan(request.user.data.clan_id.name)  
+                image_response = getCatImgAI(job_random, color, 1, 0).json()
+                image_ref = CatImage.objects.create(
                     cat_id=cat_instance,
-                    seed=101
+                    seed=image_response["seed"]
                 )
+                uploadImgToCloud(image_ref.image_uuid, image_response["image"])
             request.user.gain_exp(1)
-        
-        return
+
+            return Response({
+            "user_data": UserDataSerializer(request.user.data).data,
+            "cat": CatSerializer(cat_instance).data
+            }, status=status.HTTP_200_OK)
 
 
-
-
-
-class InteractWithCat(APIView):
+class InteractWithCatAPIView(APIView):
 
     def get(self, request):
 
         cat_id = int(request.GET.get('id', None))
-        food_given = int(request.GET.get('food', None))
+        food_to_give = int(request.GET.get('food', None))
+        cat = Cat.objects.get(id=cat_id)
 
-        request.user.gain_exp(food_given)
+        if request.user.data.food<food_to_give:
+            return Response({
+                "message": "You don't have enough food."
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        if InteractCat.objects.filter(cat_id=cat, user_id=request.user).exists():
+            interact=InteractCat.objects.get(cat_id, user_id=request.user)
+        else:
+            interact=InteractCat.objects.create(
+                cat_id=cat,
+                user_id=request.user
+            )
+        
+        given_food = interact.given_food
+
+        if (food_to_give+given_food)>request.user.data.limite_food:
+            return Response({
+                "message": "You are trying to exceed the authorized food limit."
+            }, status=status.HTTP_400_BAD_REQUEST)
+
+        cat_clan = cat.user_id.data.clan_id
+        user_clan = request.user.data.clan_id
+        effective_food = food_to_give
+
+        if cat_clan==user_clan:
+            if cat_clan.effect_id==1:
+                effective_food=effective_food+math.ceil(food_to_give*(10/100))             
+            success_nurture = cat.gain_food(effective_food)
+            if not success_nurture:
+                return Response({
+                    "message": "This cat cannot level up because enemy cat territories are still present in the targeted area."
+                }, status=status.HTTP_400_BAD_REQUEST)        
+        else:
+            if cat_clan.effect_id==2:
+                effective_food=effective_food-math.ceil(food_to_give*(10/100))
+            if user_clan.effect_id==3:
+                effective_food=effective_food+math.ceil(food_to_give*(10/100))
+            cat.gain_poison_food(effective_food)
+
+        request.user.gain_exp(food_to_give)
+
+        return Response({
+            "user_data": UserDataSerializer(request.user.data).data,
+            "cat": CatSerializer(cat).data
+        }, status=status.HTTP_200_OK)
+

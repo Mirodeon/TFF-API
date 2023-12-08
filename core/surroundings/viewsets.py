@@ -4,6 +4,7 @@ from TFF.settings import RADIUS_VIEW
 from core.models import InterestPoint, Cat
 from core.surroundings.serializers import CatWithInteractSerializer, InterestPointWithInteractSerializer
 from core.utils import generatePointWithinRadius
+from rest_framework import status
 
 
 class SurroundingsAPIView(APIView):
@@ -32,4 +33,4 @@ class SurroundingsAPIView(APIView):
             "cats": CatWithInteractSerializer(cats, many=True, context={'request': request}).data
         }
 
-        return Response(data)
+        return Response(data, status=status.HTTP_200_OK)

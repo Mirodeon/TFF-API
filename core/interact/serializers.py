@@ -6,11 +6,11 @@ class InteractCatSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InteractCat
-        fields = ['id', 'timestamp', 'is_enabled']
+        fields = ['id', 'timestamp']
 
 
 class InteractInterestPointSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = InteractInterestPoint
-        fields = ['id', 'timestamp', 'is_enabled']
+        fields = ['id', 'timestamp', 'given_food']

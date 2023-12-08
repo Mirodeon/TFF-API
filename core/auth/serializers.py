@@ -46,3 +46,26 @@ class RegisterSerializer(UserSerializer):
         except ObjectDoesNotExist:
             user = User.objects.create_user(**validated_data)
         return user
+
+
+class VerificationSerializer(UserSerializer):
+    password = serializers.CharField(
+        write_only=True, max_length=128, min_length=8, required=True
+    )
+    email = serializers.EmailField(
+        required=True, max_length=128, validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+    username = serializers.CharField(
+        required=True, max_length=24, min_length=4, validators=[UniqueValidator(queryset=User.objects.all())]
+    )
+
+    class Meta:
+        model = User
+        fields = ['id', 'username', 'email', 'password', 'is_active']
+
+    def create(self, validated_data):
+        try:
+            User.objects.get(email=validated_data['email'])
+            return False
+        except ObjectDoesNotExist:
+            return True

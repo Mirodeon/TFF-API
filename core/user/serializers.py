@@ -1,6 +1,7 @@
 from core.clan.serializers import ClanSerializer
 from core.models import Clan, User, UserData, UserImage
 from rest_framework import serializers
+from core.utils import getAvatarImgAI, getColorClan, uploadImgToCloud
 
 
 class UserSerializer(serializers.ModelSerializer):
@@ -19,23 +20,6 @@ class UserInfoSerializer(serializers.ModelSerializer):
         read_only_field = ['is_active']
 
 
-class UserDataCreateSerializer(serializers.ModelSerializer):
-
-    class Meta:
-        model = UserData
-        fields = ['clan_id']
-
-    def create(self, validated_data):
-        request = self.context.get("request")
-
-        user_data_instance = UserData.objects.create(
-            user_id=request.user,
-            clan_id=validated_data['clan_id']
-        )
-
-        return user_data_instance
-
-
 class UserDataSerializer(serializers.ModelSerializer):
     clan = ClanSerializer(source='clan_id', read_only=True)
     image = serializers.CharField(source='image.image_url', read_only=True)
@@ -51,11 +35,15 @@ class UserDataSerializer(serializers.ModelSerializer):
             user_id=request.user,
             clan_id=Clan.objects.get(id=request.data['clan_id'])
         )
+        
+        color = getColorClan(user_data_instance.clan_id.name) 
+        image_response = getAvatarImgAI(color, request.data['animal'], request.data['landscape'], request.data['hobby'])
 
-        UserImage.objects.create(
+        image_ref = UserImage.objects.create(
             user_data_id=user_data_instance,
-            seed=101
+            seed=image_response["seed"]
         )
+        uploadImgToCloud(image_ref.image_uuid, image_response["image"])
 
         return user_data_instance
 
