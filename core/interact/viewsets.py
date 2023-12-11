@@ -1,13 +1,15 @@
 import math
 import random
 from rest_framework.views import APIView
-from TFF.settings import JOB_CHOICES
+from TFF.settings import DROP_CHANCE_CAT, JOB_CHOICES
 from core.cat.serializers import CatSerializer
+from core.interact.serializers import InteractCatSerializer
 from core.models import Cat, CatImage, InteractCat, InteractInterestPoint, InterestPoint
 from rest_framework.response import Response
 from rest_framework import status
 from core.user.serializers import UserDataSerializer
 from core.utils import getCatImgAI, getColorClan, uploadImgToCloud
+from django.utils import timezone
 
 
 class InteractWithInterestPointAPIView(APIView):
@@ -29,7 +31,7 @@ class InteractWithInterestPointAPIView(APIView):
 
             gained_food = 0
             cat_instance = None
-            if random.randrange(1, 101) > 5:
+            if random.randrange(0, 101) > DROP_CHANCE_CAT:
                 gained_food = random.randrange(4, 10)
                 request.user.gain_food(gained_food)
             else:
@@ -37,20 +39,20 @@ class InteractWithInterestPointAPIView(APIView):
                 job_random = jobs[random.randrange(0, len(jobs))]
                 cat_instance = Cat.objects.create(
                     user_id=request.user,
-                    clan_id=request.user.data.clan_id,
                     job=job_random          
                 )
                 color = getColorClan(request.user.data.clan_id.name)  
-                image_response = getCatImgAI(job_random, color, 1, 0).json()
+                image_response = getCatImgAI(job_random, color, 1, 0)
                 image_ref = CatImage.objects.create(
                     cat_id=cat_instance,
                     seed=image_response["seed"]
                 )
-                uploadImgToCloud(image_ref.image_uuid, image_response["image"])
+                uploadImgToCloud(str(image_ref.image_uuid), image_response["image"])
             request.user.gain_exp(1)
 
             return Response({
             "user_data": UserDataSerializer(request.user.data).data,
+            "gained_food": gained_food,
             "cat": CatSerializer(cat_instance).data
             }, status=status.HTTP_200_OK)
 
@@ -69,16 +71,16 @@ class InteractWithCatAPIView(APIView):
             }, status=status.HTTP_400_BAD_REQUEST)
 
         if InteractCat.objects.filter(cat_id=cat, user_id=request.user).exists():
-            interact=InteractCat.objects.get(cat_id, user_id=request.user)
+            interact=InteractCat.objects.get(cat_id=cat, user_id=request.user)
+            interact.timestamp = timezone.now()
+            interact.save()
         else:
             interact=InteractCat.objects.create(
                 cat_id=cat,
                 user_id=request.user
             )
-        
-        given_food = interact.given_food
 
-        if (food_to_give+given_food)>request.user.data.limite_food:
+        if (food_to_give+interact.given_food)>request.user.data.limite_food:
             return Response({
                 "message": "You are trying to exceed the authorized food limit."
             }, status=status.HTTP_400_BAD_REQUEST)
@@ -101,11 +103,28 @@ class InteractWithCatAPIView(APIView):
             if user_clan.effect_id==3:
                 effective_food=effective_food+math.ceil(food_to_give*(10/100))
             cat.gain_poison_food(effective_food)
-
+        
+        interact.given_food = interact.given_food+food_to_give
+        interact.save()
         request.user.gain_exp(food_to_give)
 
         return Response({
             "user_data": UserDataSerializer(request.user.data).data,
-            "cat": CatSerializer(cat).data
+            "cat": CatSerializer(cat).data,
+            "interact": InteractCatSerializer(interact).data
         }, status=status.HTTP_200_OK)
 
+
+class ResetInterestPointAPIView(APIView):
+
+    def get(self, request):
+
+        if request.user.is_superuser:
+            InterestPoint.objects.all().delete()
+            return Response({
+                "message": "Reset successfull."
+            }, status=status.HTTP_200_OK)
+        else:
+            return Response({
+                "message": "Insufficient permissions."
+            }, status=status.HTTP_403_FORBIDDEN)

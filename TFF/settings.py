@@ -26,9 +26,13 @@ load_dotenv(BASE_DIR / '.env')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 API_KEY_CUSTOM_HEADER = os.getenv('API_KEY_CUSTOM_HEADER')
+DB_USER=os.getenv('DB_USER')
+DB_EMAIL=os.getenv('DB_EMAIL')
+DB_PASSWORD=os.getenv('DB_PASSWORD')
 
 LVL_MAX_USER = int(os.getenv('LVL_MAX_USER'))
 LVL_MAX_CAT = int(os.getenv('LVL_MAX_CAT'))
+DROP_CHANCE_CAT = int(os.getenv('DROP_CHANCE_CAT'))
 
 RADIUS_VIEW = int(os.getenv('RADIUS_VIEW'))
 MIN_RADIUS_CAT = int(os.getenv('MIN_RADIUS_CAT'))

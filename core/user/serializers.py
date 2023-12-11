@@ -26,7 +26,7 @@ class UserDataSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = UserData
-        fields = ['clan', 'food', 'lvl', 'exp', 'limite_exp', 'image']
+        fields = ['clan', 'food', 'limite_food', 'lvl', 'exp', 'limite_exp', 'image']
 
     def create(self, validated_data):
         request = self.context.get("request")
@@ -43,7 +43,7 @@ class UserDataSerializer(serializers.ModelSerializer):
             user_data_id=user_data_instance,
             seed=image_response["seed"]
         )
-        uploadImgToCloud(image_ref.image_uuid, image_response["image"])
+        uploadImgToCloud(str(image_ref.image_uuid), image_response["image"])
 
         return user_data_instance
 

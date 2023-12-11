@@ -113,7 +113,7 @@ class UserImage(models.Model):
         )
 
     def __str__(self):
-        return f"{self.user_data_id}"
+        return f"{self.user_data_id} - {self.image_url}"
 
 
 class Cat(models.Model):
@@ -159,8 +159,8 @@ class Cat(models.Model):
     
     def update_img(self):
         color = getColorClan(self.user_id.data.clan_id.name) 
-        image_response = getCatImgAI(self.job, color, self.lvl, self.image.seed).json()
-        uploadImgToCloud(self.image.image_uuid, image_response["image"])
+        image_response = getCatImgAI(self.job, color, self.lvl, self.image.seed)
+        uploadImgToCloud(str(self.image.image_uuid), image_response["image"])
     
     def gain_food(self, food):
         success = True

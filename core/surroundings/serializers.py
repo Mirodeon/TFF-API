@@ -28,7 +28,7 @@ class InterestPointWithInteractSerializer(serializers.ModelSerializer):
 
 
 class CatWithInteractSerializer(serializers.ModelSerializer):
-    url = serializers.CharField(source='image.image_url', read_only=True)
+    image = serializers.CharField(source='image.image_url', read_only=True)
     owner = UserInfoSerializer(source='user_id', read_only=True)
     clan = ClanSerializer(source='user_id.data.clan_id', read_only=True)
     position = CatPositionSerializer(read_only=True)
@@ -37,7 +37,7 @@ class CatWithInteractSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Cat
-        fields = ['id', 'owner', 'clan', 'name', 'job', 'lvl', 'exp', 'timestamp', 'url', 'origin', 'position', 'interact', 'alive']
+        fields = ['id', 'owner', 'clan', 'name', 'job', 'lvl', 'exp', 'limite_exp', 'timestamp', 'image', 'origin', 'position', 'alive', 'radius', 'interact']
 
     def get_interact(self, obj):
         interact = InteractCat.objects.filter(user_id=self.context.get("request").user, cat_id=obj)

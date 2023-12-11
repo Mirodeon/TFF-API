@@ -73,7 +73,7 @@ def getImgAI(prompt, seed):
         "authorization": "Bearer " + GET_IMG_AI_KEY
     }
     response = requests.post(GET_IMG_AI_URL, json=payload, headers=headers)
-    return response
+    return response.json()
 
 def getCatImgAI(job, color, lvl, seed):
     prompt = "cat "+job+color
