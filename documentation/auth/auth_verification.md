@@ -1,9 +1,10 @@
-# /auth/login/
+# /auth/verification/
 ### POST
 + Request
 ```json
 
 {
+    "username": "username",
     "email": "email",
     "password": "password"
 }
@@ -14,13 +15,11 @@
 ```json
 
 {
-    "refresh": "refresh token",
-    "access": "access token",
-    "user": {
+    "available": {
         "id": 1,
         "username": "username",
         "email": "email",
-        "is_active": true
+        "is_active": false
     }
 }
 

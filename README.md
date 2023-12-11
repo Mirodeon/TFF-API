@@ -16,10 +16,10 @@
 * Access API at http://127.0.0.1:8000/api.
 ### API Endpoints
 + Auth   
-   * [/auth/register](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_register.md)   
-   * [/auth/login](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_login.md)   
-   * [/auth/refresh](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_refresh.md) 
-   * [/auth/verification](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_refresh.md) 
+   * [/auth/register/](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_register.md)   
+   * [/auth/login/](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_login.md)   
+   * [/auth/refresh/](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_refresh.md) 
+   * [/auth/verification/](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_verification.md) 
 + User   
    * [/user](https://github.com/Mirodeon/TFF-API/blob/main/documentation/user/user.md) 
    * [/user/info](https://github.com/Mirodeon/TFF-API/blob/main/documentation/user/user_info.md)
