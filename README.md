@@ -16,20 +16,31 @@
 * Access API at http://127.0.0.1:8000/api.
 ### API Endpoints
 + Auth   
-   * [/auth/register](https://github.com/Mirodeon/TFF-API/blob/main/auth_register.md)   
-   * [/auth/login](https://github.com/Mirodeon/TFF-API/blob/main/auth_login.md)   
-   * [/auth/refresh](https://github.com/Mirodeon/TFF-API/blob/main/auth_refresh.md) 
+   * [/auth/register](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_register.md)   
+   * [/auth/login](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_login.md)   
+   * [/auth/refresh](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_refresh.md) 
+   * [/auth/verification](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_refresh.md) 
 + User   
-   * [/user](https://github.com/Mirodeon/TFF-API/blob/main/user.md) 
-   * [/user/info](https://github.com/Mirodeon/TFF-API/blob/main/user_info.md)
-   * [/user/details](https://github.com/Mirodeon/TFF-API/blob/main/user_details.md)
-   * [/user/data](https://github.com/Mirodeon/TFF-API/blob/main/user_data.md)
+   * [/user](https://github.com/Mirodeon/TFF-API/blob/main/documentation/user/user.md) 
+   * [/user/info](https://github.com/Mirodeon/TFF-API/blob/main/documentation/user/user_info.md)
+   * [/user/details](https://github.com/Mirodeon/TFF-API/blob/main/documentation/user/user_details.md)
+   * [/user/data](https://github.com/Mirodeon/TFF-API/blob/main/documentation/user/user_data.md)
 + Clan 
-   * [/clan](https://github.com/Mirodeon/TFF-API/blob/main/clan.md) 
-   * [/clan/user](https://github.com/Mirodeon/TFF-API/blob/main/clan_user.md)
-   * [/clan/cat](https://github.com/Mirodeon/TFF-API/blob/main/clan_cat.md)
+   * [/clan](https://github.com/Mirodeon/TFF-API/blob/main/documentation/clan/clan.md) 
+   * [/clan/user](https://github.com/Mirodeon/TFF-API/blob/main/documentation/clan/clan_user.md)
+   * [/clan/cat](https://github.com/Mirodeon/TFF-API/blob/main/documentation/clan/clan_cat.md)
 + Surroundings 
-   * [/surroundings](https://github.com/Mirodeon/TFF-API/blob/main/surroundings.md)
+   * [/surroundings](https://github.com/Mirodeon/TFF-API/blob/main/documentation/surroundings/surroundings.md)
++ Cat
+   * [/cat/user/map](https://github.com/Mirodeon/TFF-API/blob/main/documentation/cat/cat_user_map.md) 
+   * [/cat/user/bag](https://github.com/Mirodeon/TFF-API/blob/main/documentation/cat/cat_user_bag.md)
+   * [/cat/drop](https://github.com/Mirodeon/TFF-API/blob/main/documentation/cat/cat_drop.md)
++ Interact
+   * [/interact/interest](https://github.com/Mirodeon/TFF-API/blob/main/documentation/interact/clan.md) 
+   * [/interact/cat](https://github.com/Mirodeon/TFF-API/blob/main/documentation/interact/clan_user.md)
+   * [/interact/reset](https://github.com/Mirodeon/TFF-API/blob/main/documentation/interact/clan_cat.md)
++ HealthCheck
+   * [/health](https://github.com/Mirodeon/TFF-API/blob/main/documentation/healthCheck/surroundings.md)
 ### Author
 * [Mirodeon](https://https://github.com/Mirodeon)
 
