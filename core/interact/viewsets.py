@@ -4,7 +4,7 @@ from rest_framework.views import APIView
 from TFF.settings import DROP_CHANCE_CAT, JOB_CHOICES
 from core.cat.serializers import CatSerializer
 from core.interact.serializers import InteractCatSerializer
-from core.models import Cat, CatImage, InteractCat, InteractInterestPoint, InterestPoint
+from core.user.models import Cat, CatImage, InteractCat, InteractInterestPoint, InterestPoint
 from rest_framework.response import Response
 from rest_framework import status
 from core.user.serializers import UserDataSerializer

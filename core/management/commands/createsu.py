@@ -1,5 +1,5 @@
 from TFF.settings import DB_EMAIL, DB_PASSWORD, DB_USER
-from core.models import User
+from core.user.models import User
 from django.core.management.base import BaseCommand
 
 

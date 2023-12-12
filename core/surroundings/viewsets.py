@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
 from TFF.settings import RADIUS_VIEW
-from core.models import InterestPoint, Cat
+from core.user.models import InterestPoint, Cat
 from core.surroundings.serializers import CatWithInteractSerializer, InterestPointWithInteractSerializer
 from core.utils import generatePointWithinRadius
 from rest_framework import status

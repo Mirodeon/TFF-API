@@ -1,5 +1,5 @@
 from core.clan.serializers import ClanSerializer
-from core.models import Clan, User, UserData, UserImage
+from core.user.models import Clan, User, UserData, UserImage
 from rest_framework import serializers
 from core.utils import getAvatarImgAI, getColorClan, uploadImgToCloud
 

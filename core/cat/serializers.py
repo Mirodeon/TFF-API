@@ -1,6 +1,6 @@
 from rest_framework import serializers
 from core.clan.serializers import ClanSerializer
-from core.models import Cat, CatOrigin, CatPosition, Clan
+from core.user.models import Cat, CatOrigin, CatPosition, Clan
 from core.user.serializers import UserInfoSerializer
 
 

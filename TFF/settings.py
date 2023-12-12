@@ -70,6 +70,7 @@ INSTALLED_APPS = [
     'rest_framework',
     'corsheaders',
     'core',
+    'core.user',
 ]
 
 MIDDLEWARE = [
@@ -171,7 +172,7 @@ MEDIA_ROOT = BASE_DIR / 'mediafiles'
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-AUTH_USER_MODEL = 'core.User'
+AUTH_USER_MODEL = 'core_user.User'
 
 REST_FRAMEWORK = {
     'DEFAULT_PERMISSION_CLASSES': (
