@@ -121,6 +121,9 @@ class ResetInterestPointAPIView(APIView):
 
         if request.user.is_superuser:
             InterestPoint.objects.all().delete()
+            interacts_cat = InteractCat.objects.all()
+            interacts_cat.update(given_food=0)
+
             return Response({
                 "message": "Reset successfull."
             }, status=status.HTTP_200_OK)

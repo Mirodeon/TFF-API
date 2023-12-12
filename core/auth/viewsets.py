@@ -61,7 +61,7 @@ class VerificationViewSet(ModelViewSet):
         serializer.is_valid(raise_exception=True)
 
         return Response({
-            "available": serializer.data,
+            "available": True,
         }, status=status.HTTP_200_OK)
 
 
