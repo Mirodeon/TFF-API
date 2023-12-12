@@ -25,3 +25,12 @@
 }
 
 ```
++ Response 401
+
+```json
+
+{
+    "detail": "No active account found with the given credentials"
+}
+
+```

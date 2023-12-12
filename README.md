@@ -14,6 +14,8 @@
 * Run 'python manage.py runserver' to start the server.
 * Access administration panel at http://127.0.0.1:8000/admin.
 * Access API at http://127.0.0.1:8000/api.
+### Headers
+* x-api-key: "your apiKey"
 ### API Endpoints
 + Auth   
    * [/auth/register/](https://github.com/Mirodeon/TFF-API/blob/main/documentation/auth/auth_register.md)   

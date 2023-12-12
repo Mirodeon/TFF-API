@@ -17,3 +17,13 @@
 }
 
 ```
++ Response 401
+
+```json
+
+{
+    "detail": "Token is invalid or expired",
+    "code": "token_not_valid"
+}
+
+```
