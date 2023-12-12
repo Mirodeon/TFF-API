@@ -1,7 +1,7 @@
 from core.cat.serializers import CatOriginSerializer, CatPositionSerializer, CatSerializer
 from core.clan.serializers import ClanSerializer
 from core.interact.serializers import InteractCatSerializer, InteractInterestPointSerializer
-from core.user.models import Cat, InterestPoint, InteractCat, InteractInterestPoint
+from core.models import Cat, InterestPoint, InteractCat, InteractInterestPoint
 from rest_framework import serializers
 from core.user.serializers import UserInfoSerializer
 

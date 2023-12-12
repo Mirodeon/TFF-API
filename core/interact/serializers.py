@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.user.models import InteractCat, InteractInterestPoint
+from core.models import InteractCat, InteractInterestPoint
 
 
 class InteractCatSerializer(serializers.ModelSerializer):

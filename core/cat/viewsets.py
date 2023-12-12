@@ -2,7 +2,7 @@ from rest_framework import viewsets
 from core.cat.serializers import CatSerializer
 from rest_framework.views import APIView
 from rest_framework import filters
-from core.user.models import Cat, CatOrigin, CatPosition
+from core.models import Cat, CatOrigin, CatPosition
 from rest_framework.response import Response
 from rest_framework import status
 from core.utils import distanceBetweenGPSPoint, generatePointWithinRadius

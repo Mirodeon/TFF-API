@@ -1,5 +1,5 @@
 from rest_framework import serializers
-from core.user.models import Clan
+from core.models import Clan
 
 
 class ClanSerializer(serializers.ModelSerializer):

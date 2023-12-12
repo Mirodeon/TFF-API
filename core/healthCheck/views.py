@@ -1,7 +1,7 @@
 from rest_framework.response import Response
 from rest_framework import status
 from TFF.settings import DB_USER
-from core.user.models import User
+from core.models import User
 from rest_framework.views import APIView
 from rest_framework.permissions import AllowAny
     

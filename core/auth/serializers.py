@@ -5,7 +5,7 @@ from django.contrib.auth.models import update_last_login
 from django.core.exceptions import ObjectDoesNotExist
 from rest_framework.validators import UniqueValidator
 from core.user.serializers import UserSerializer
-from core.user.models import User
+from core.models import User
 
 
 class LoginSerializer(TokenObtainPairSerializer):
