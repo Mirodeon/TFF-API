@@ -9,6 +9,7 @@ https://docs.djangoproject.com/en/4.2/topics/settings/
 For the full list of settings and their values, see
 https://docs.djangoproject.com/en/4.2/ref/settings/
 """
+from datetime import timedelta
 import os
 from pathlib import Path
 from dotenv import load_dotenv
@@ -26,6 +27,8 @@ load_dotenv(BASE_DIR / '.env')
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = os.getenv('SECRET_KEY')
 API_KEY_CUSTOM_HEADER = os.getenv('API_KEY_CUSTOM_HEADER')
+ACCESS_TOKEN_LIFETIME = int(os.getenv('ACCESS_TOKEN_LIFETIME'))
+REFRESH_TOKEN_LIFETIME = int(os.getenv('REFRESH_TOKEN_LIFETIME'))
 DB_USER=os.getenv('DB_USER')
 DB_EMAIL=os.getenv('DB_EMAIL')
 DB_PASSWORD=os.getenv('DB_PASSWORD')
@@ -184,6 +187,11 @@ REST_FRAMEWORK = {
     'DEFAULT_RENDERER_CLASSES': (
         'rest_framework.renderers.JSONRenderer',
     )
+}
+
+SIMPLE_JWT = {
+    "ACCESS_TOKEN_LIFETIME": timedelta(minutes=ACCESS_TOKEN_LIFETIME),
+    "REFRESH_TOKEN_LIFETIME": timedelta(days=REFRESH_TOKEN_LIFETIME),
 }
 
 CORS_ALLOWED_ORIGINS = []
