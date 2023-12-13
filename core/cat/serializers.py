@@ -1,6 +1,7 @@
 from rest_framework import serializers
 from core.clan.serializers import ClanSerializer
-from core.models import Cat, CatOrigin, CatPosition, Clan
+from core.interact.serializers import InteractCatWithUserSerializer
+from core.models import Cat, CatOrigin, CatPosition, Clan, InteractCat
 from core.user.serializers import UserInfoSerializer
 
 
@@ -24,11 +25,15 @@ class CatSerializer(serializers.ModelSerializer):
     clan = ClanSerializer(source='user_id.data.clan_id', read_only=True)
     position = CatPositionSerializer(read_only=True)
     origin = CatOriginSerializer(read_only=True)
+    interact = serializers.SerializerMethodField()
 
     class Meta:
         model = Cat
-        fields = ['id', 'owner', 'clan', 'name', 'job', 'lvl', 'exp', 'limite_exp', 'timestamp', 'image', 'origin', 'position', 'alive', 'radius']
+        fields = ['id', 'owner', 'clan', 'name', 'job', 'lvl', 'exp', 'limite_exp', 'timestamp', 'image', 'origin', 'position', 'alive', 'radius', 'interact']
 
+    def get_interact(self, obj):
+        interact = InteractCat.objects.filter(cat_id=obj)
+        return InteractCatWithUserSerializer(interact, many=True).data
 
 class CatFromClanSerializer(serializers.ModelSerializer):
     cats = serializers.SerializerMethodField()
