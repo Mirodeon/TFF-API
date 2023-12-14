@@ -25,15 +25,11 @@ class CatSerializer(serializers.ModelSerializer):
     clan = ClanSerializer(source='user_id.data.clan_id', read_only=True)
     position = CatPositionSerializer(read_only=True)
     origin = CatOriginSerializer(read_only=True)
-    interact = serializers.SerializerMethodField()
 
     class Meta:
         model = Cat
-        fields = ['id', 'owner', 'clan', 'name', 'job', 'lvl', 'exp', 'limite_exp', 'timestamp', 'image', 'origin', 'position', 'alive', 'radius', 'interact']
+        fields = ['id', 'owner', 'clan', 'name', 'job', 'lvl', 'exp', 'limite_exp', 'timestamp', 'image', 'origin', 'position', 'alive', 'radius']
 
-    def get_interact(self, obj):
-        interact = InteractCat.objects.filter(cat_id=obj)
-        return InteractCatWithUserSerializer(interact, many=True).data
 
 class CatFromClanSerializer(serializers.ModelSerializer):
     cats = serializers.SerializerMethodField()

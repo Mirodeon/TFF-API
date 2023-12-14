@@ -1,10 +1,10 @@
-from rest_framework import viewsets
 from core.cat.serializers import CatSerializer
 from rest_framework.views import APIView
 from rest_framework import filters
 from core.models import Cat, CatOrigin, CatPosition
 from rest_framework.response import Response
 from rest_framework import status
+from core.surroundings.serializers import CatWithAllInteractSerializer
 from core.utils import distanceBetweenGPSPoint, generatePointWithinRadius
 
 
@@ -12,7 +12,7 @@ class CatOnMapFromUserAPIView(APIView):
 
     def get(self, request):
         cats = [ cat for cat in Cat.objects.filter(user_id=request.user) if cat.is_on_map() ]
-        return Response({"cats": CatSerializer(cats, many=True).data}, status=status.HTTP_200_OK)
+        return Response({"cats": CatWithAllInteractSerializer(cats, many=True).data}, status=status.HTTP_200_OK)
     
     
 class CatInBagFromUserAPIView(APIView):
