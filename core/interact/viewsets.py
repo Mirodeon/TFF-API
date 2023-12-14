@@ -31,8 +31,13 @@ class InteractWithInterestPointAPIView(APIView):
 
             gained_food = 0
             cat_instance = None
+            result = {
+                "gained_food": gained_food,
+                "cat": cat_instance
+            }
             if random.randrange(0, 101) > DROP_CHANCE_CAT:
                 gained_food = random.randrange(4, 10)
+                result["gained_food"] = gained_food
                 request.user.gain_food(gained_food)
             else:
                 jobs = JOB_CHOICES.split(" ")
@@ -48,13 +53,11 @@ class InteractWithInterestPointAPIView(APIView):
                     seed=image_response["seed"]
                 )
                 uploadImgToCloud(str(image_ref.image_uuid), image_response["image"])
+                result["cat"] = CatSerializer(cat_instance).data
             request.user.gain_exp(1)
+            result["user_data"] = UserDataSerializer(request.user.data).data
 
-            return Response({
-            "user_data": UserDataSerializer(request.user.data).data,
-            "gained_food": gained_food,
-            "cat": CatSerializer(cat_instance).data
-            }, status=status.HTTP_200_OK)
+            return Response(result, status=status.HTTP_200_OK)
 
 
 class InteractWithCatAPIView(APIView):
