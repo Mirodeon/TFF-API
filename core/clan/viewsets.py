@@ -3,7 +3,6 @@ from rest_framework import viewsets
 from core.cat.serializers import CatFromClanSerializer
 from core.clan.serializers import ClanSerializer
 from core.models import Cat, Clan
-from core.surroundings.serializers import CatSerializer
 from core.user.serializers import UserFromClanSerializer
 
 
