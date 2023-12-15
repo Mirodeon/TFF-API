@@ -77,7 +77,7 @@ class User(AbstractBaseUser, PermissionsMixin):
         user_data.save()
 
     def __str__(self):
-        return f"{self.email}"
+        return f"{self.pk}: {self.email}"
 
 
 class Clan(models.Model):
@@ -85,7 +85,7 @@ class Clan(models.Model):
     effect_id = models.IntegerField(validators=[MinValueValidator(0)], default=0)
 
     def __str__(self):
-        return f"{self.name}"
+        return f"{self.pk}: {self.name}"
 
 
 class UserData(models.Model):
@@ -195,7 +195,7 @@ class Cat(models.Model):
         self.save()
 
     def __str__(self):
-        return f"{self.name} from {self.user_id}"
+        return f"{self.pk}: {self.name} from {self.user_id}"
 
 
 class CatImage(models.Model):
@@ -246,7 +246,7 @@ class InterestPoint(models.Model):
         return RADIUS_VIEW >= distanceBetweenGPSPoint(self.latitude, lat, self.longitude, lon)
 
     def __str__(self):
-        return f"[{self.latitude}, {self.longitude}]"
+        return f"[{self.pk}: {self.latitude}, {self.longitude}]"
 
 
 class InteractCat(models.Model):
