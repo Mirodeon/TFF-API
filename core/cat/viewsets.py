@@ -68,7 +68,7 @@ class CatDropAPIView(APIView):
 
 
 class CatViewSet(viewsets.ModelViewSet):
-    http_method_names = ['get', 'put']
+    http_method_names = ['get']
     serializer_class = CatWithInteractSerializer
     filter_backends = [filters.OrderingFilter]
 
