@@ -6,6 +6,7 @@ from rest_framework.response import Response
 from rest_framework import status
 from core.surroundings.serializers import CatWithAllInteractSerializer, CatWithInteractSerializer
 from core.utils import distanceBetweenGPSPoint, generatePointWithinRadius
+from rest_framework import viewsets
 
 
 class CatOnMapFromUserAPIView(APIView):
