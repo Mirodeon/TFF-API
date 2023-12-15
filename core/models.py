@@ -146,7 +146,7 @@ class Cat(models.Model):
         except CatOrigin.DoesNotExist:
             return False       
         for cat_origin in CatOrigin.objects.all():
-            if not self.is_same_clan(cat_origin):
+            if not self.is_same_clan(cat_origin) and cat_origin.cat_id.alive:
                 distance_between = distanceBetweenGPSPoint(
                     cat_origin.latitude, 
                     origin.latitude, 
