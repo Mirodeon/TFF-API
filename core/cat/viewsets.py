@@ -4,7 +4,7 @@ from rest_framework import filters
 from core.models import Cat, CatOrigin, CatPosition
 from rest_framework.response import Response
 from rest_framework import status
-from core.surroundings.serializers import CatWithAllInteractSerializer
+from core.surroundings.serializers import CatWithAllInteractSerializer, CatWithInteractSerializer
 from core.utils import distanceBetweenGPSPoint, generatePointWithinRadius
 
 
@@ -64,3 +64,20 @@ class CatDropAPIView(APIView):
                 {"message": "This cat cannot be placed in the designated area"},
                 status=status.HTTP_400_BAD_REQUEST
             )
+
+
+class CatViewSet(viewsets.ModelViewSet):
+    http_method_names = ['get', 'put']
+    serializer_class = CatWithInteractSerializer
+    filter_backends = [filters.OrderingFilter]
+
+    def get_queryset(self):
+
+        return Cat.objects.all()
+
+    def get_object_or_404(self):
+        lookup_field_value = self.kwargs[self.lookup_field]
+
+        obj = Cat.objects.get(id=lookup_field_value)
+
+        return obj

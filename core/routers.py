@@ -1,5 +1,5 @@
 from rest_framework.routers import SimpleRouter
-from core.cat.viewsets import CatDropAPIView, CatInBagFromUserAPIView, CatOnMapFromUserAPIView
+from core.cat.viewsets import CatDropAPIView, CatInBagFromUserAPIView, CatOnMapFromUserAPIView, CatViewSet
 from core.clan.viewsets import CatFromClanViewSet, ClanViewSet, UserFromClanViewSet
 from core.healthCheck.views import HealthCheckAPIView
 from core.interact.viewsets import InteractWithCatAPIView, InteractWithInterestPointAPIView, ResetInterestPointAPIView
@@ -27,6 +27,9 @@ routes.register(r'user', UserViewSet, basename='user')
 routes.register(r'clan/user', UserFromClanViewSet, basename='user-from-clan')
 routes.register(r'clan/cat', CatFromClanViewSet, basename='cat-from-clan')
 routes.register(r'clan', ClanViewSet, basename='clan')
+
+# CAT
+routes.register(r'cat/info', CatViewSet, basename='cat')
 
 
 urlpatterns = [
