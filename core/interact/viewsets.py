@@ -127,6 +127,9 @@ class ResetInterestPointAPIView(APIView):
             InterestPoint.objects.all().delete()
             interacts_cat = InteractCat.objects.all()
             interacts_cat.update(given_food=0)
+            cats = Cat.objects.all()
+            for cat in cats:
+                cat.randomize_position()
 
             return Response({
                 "message": "Reset successfull."

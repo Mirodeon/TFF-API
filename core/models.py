@@ -5,7 +5,7 @@ from django.core.validators import MinValueValidator
 from django.utils import timezone
 import os
 from TFF.settings import LVL_MAX_CAT, LVL_MAX_USER, MIN_RADIUS_CAT, RADIUS_VIEW
-from core.utils import distanceBetweenGPSPoint, getCatImgAI, getClanChoices, getColorClan, getJobChoices, uploadImgToCloud
+from core.utils import distanceBetweenGPSPoint, generatePointWithinRadius, getCatImgAI, getClanChoices, getColorClan, getJobChoices, uploadImgToCloud
 
 
 class UserManager(BaseUserManager):
@@ -205,6 +205,21 @@ class Cat(models.Model):
     def hasInteractWith(self, user):
         interact = InteractCat.objects.filter(user_id=user, cat_id=self)
         return len(interact) > 0
+    
+    def randomize_position(self):
+        try:
+            origin = self.origin
+        except CatOrigin.DoesNotExist:
+            return 
+        random_point = generatePointWithinRadius(origin.latitude, origin.longitude, self.radius)
+        try:
+            position = self.position
+        except CatPosition.DoesNotExist:
+            return
+        position.latitude = random_point['latitude']
+        position.longitude = random_point['longitude']
+        position.save()
+
         
 
     def __str__(self):
