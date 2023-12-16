@@ -82,3 +82,9 @@ class CatViewSet(viewsets.ModelViewSet):
         obj = Cat.objects.get(id=lookup_field_value)
 
         return obj
+    
+class CatHistoryFromUserAPIView(APIView):
+    
+    def get(self, request):
+        cats = [ cat for cat in Cat.objects.all() if not cat.hasInteractWith(request.user) ]
+        return Response({"cats": CatWithInteractSerializer(cats, many=True).data}, status=status.HTTP_200_OK)

@@ -194,6 +194,13 @@ class Cat(models.Model):
             self.exp = self.exp-food
         self.save()
 
+    def hasInteractWith(self, user):
+        try:
+            interact = InteractCat.objects.get(user_id=user, cat_id=self)
+        except InteractCat.DoesNotExist:
+            return False
+        return True
+
     def __str__(self):
         return f"{self.pk}: {self.name} from {self.user_id}"
 
