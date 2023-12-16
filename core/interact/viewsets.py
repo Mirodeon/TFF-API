@@ -109,6 +109,7 @@ class InteractWithCatAPIView(APIView):
         
         interact.given_food = interact.given_food+food_to_give
         interact.save()
+        request.user.gain_food(-food_to_give)
         request.user.gain_exp(food_to_give)
 
         return Response({
