@@ -76,6 +76,14 @@ class User(AbstractBaseUser, PermissionsMixin):
         user_data.food = user_data.food+food
         user_data.save()
 
+    def lose_food(self, food):     
+        try:
+            user_data = self.data
+        except UserData.DoesNotExist:
+            return 
+        user_data.food = user_data.food-food
+        user_data.save()
+
     def __str__(self):
         return f"{self.pk}: {self.email}"
 
