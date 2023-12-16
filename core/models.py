@@ -195,11 +195,9 @@ class Cat(models.Model):
         self.save()
 
     def hasInteractWith(self, user):
-        try:
-            interact = InteractCat.objects.get(user_id=user, cat_id=self)
-        except InteractCat.DoesNotExist:
-            return False
-        return True
+        interact = InteractCat.objects.filter(user_id=user, cat_id=self)
+        return len(interact) > 0
+        
 
     def __str__(self):
         return f"{self.pk}: {self.name} from {self.user_id}"
