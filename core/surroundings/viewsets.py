@@ -1,6 +1,6 @@
 from rest_framework.response import Response
 from rest_framework.views import APIView
-from TFF.settings import RADIUS_VIEW
+from TFF.settings import POINT_IN_RADIUS, RADIUS_VIEW
 from core.models import InterestPoint, Cat
 from core.surroundings.serializers import CatWithInteractSerializer, InterestPointWithInteractSerializer
 from core.utils import generatePointWithinRadius
@@ -16,9 +16,9 @@ class SurroundingsAPIView(APIView):
 
         interest_points = [ point for point in InterestPoint.objects.all() if point.is_in_radius(lat, lon) ]
 
-        if len(interest_points) < 10:
+        if len(interest_points) < POINT_IN_RADIUS:
             print(len(interest_points))
-            for i in range(10 - len(interest_points)):
+            for i in range(POINT_IN_RADIUS - len(interest_points)):
                 generated_point = generatePointWithinRadius(lat, lon, RADIUS_VIEW)
                 point = InterestPoint.objects.create(
                     latitude=generated_point['latitude'],

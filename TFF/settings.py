@@ -38,6 +38,7 @@ LVL_MAX_CAT = int(os.getenv('LVL_MAX_CAT'))
 DROP_CHANCE_CAT = int(os.getenv('DROP_CHANCE_CAT'))
 
 RADIUS_VIEW = int(os.getenv('RADIUS_VIEW'))
+POINT_IN_RADIUS = int(os.getenv('POINT_IN_RADIUS'))
 MIN_RADIUS_CAT = int(os.getenv('MIN_RADIUS_CAT'))
 
 JOB_CHOICES = os.getenv('JOB_CHOICES')
