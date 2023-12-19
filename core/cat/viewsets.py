@@ -34,7 +34,7 @@ class CatDropAPIView(APIView):
         cat_instance = Cat.objects.get(id=cat_id)
         can_be_drop = True
         for cat_origin in CatOrigin.objects.all():
-            if not cat_origin.cat_id.user_id==request.user:
+            if not cat_origin.cat_id.user_id.data.clan_id==request.user.data.clan_id and cat_origin.cat_id.alive:
                 distance_between = distanceBetweenGPSPoint(
                     cat_origin.latitude, 
                     lat, 
